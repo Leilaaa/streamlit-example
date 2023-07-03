@@ -1,4 +1,4 @@
-import streamlit as st, tiktoken
+chimport streamlit as st, tiktoken
 from langchain.chat_models import ChatOpenAI
 from langchain.utilities import GoogleSerperAPIWrapper
 from langchain.document_loaders import UnstructuredURLLoader
@@ -29,10 +29,10 @@ if col1.button("Search"):
                 search = GoogleSerperAPIWrapper(type="search", tbs="qdr:w1", serper_api_key=serper_api_key)
                 result_dict = search.results(search_query)
 
-                if not result_dict['news']:
+                if not result_dict['search']:
                     st.error(f"No search results for: {search_query}.")
                 else:
-                    for i, item in zip(range(num_results), result_dict['news']):
+                    for i, item in zip(range(num_results), result_dict['search']):
                         st.success(f"Title: {item['title']}\n\nLink: {item['link']}\n\nSnippet: {item['snippet']}")
         except Exception as e:
             st.exception(f"Exception: {e}")
@@ -49,11 +49,11 @@ if col2.button("Search & Summarize"):
                 search = GoogleSerperAPIWrapper(type="search", tbs="qdr:w1", serper_api_key=serper_api_key)
                 result_dict = search.results(search_query)
 
-                if not result_dict['news']:
+                if not result_dict['search']:
                     st.error(f"No search results for: {search_query}.")
                 else:
                     # Load URL data from the top X news search results
-                    for i, item in zip(range(num_results), result_dict['news']):
+                    for i, item in zip(range(num_results), result_dict['search']):
                         loader = UnstructuredURLLoader(urls=[item['link']])
                         data = loader.load()
 
